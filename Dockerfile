@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 node:18.16-alpine as builder
+FROM node:18.16-alpine as builder
 
 ARG sdk_package_name
 ARG sdk_yunti_name
@@ -13,11 +13,8 @@ WORKDIR /tmp/bff-sdk-template
 
 COPY . /tmp/bff-sdk-template/
 
-ARG _authToken
-
-RUN npm set //dev-npm.tenxcloud.net/:_authToken="${_authToken}" \
-  && npm i pnpm @antfu/ni zx -g \
-  && ni --ignore-scripts
+RUN --mount=type=secret,id=npmrc,target=/root/.npmrc npm i pnpm @antfu/ni zx -g
+RUN --mount=type=secret,id=npmrc,target=/root/.npmrc ni --ignore-scripts --registry=http://dev-npm.tenxcloud.net
 
 RUN chmod +x ./publish.sh
 ENTRYPOINT ["sh", "publish.sh"]
