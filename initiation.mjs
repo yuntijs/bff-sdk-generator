@@ -8,6 +8,7 @@ const FATHERRC_PATH = './.fatherrc.ts';
 
 const SDK_PACKAGE_NAME = process.env.SDK_PACKAGE_NAME;
 const SDK_YUNTI_NAME = process.env.SDK_YUNTI_NAME;
+const GRAPH_API_ENDPOINT = process.env.GRAPH_API_ENDPOINT;
 
 if (!SDK_PACKAGE_NAME) {
   console.error('env SDK_PACKAGE_NAME is required')
@@ -16,6 +17,11 @@ if (!SDK_PACKAGE_NAME) {
 
 if (!SDK_YUNTI_NAME) {
   console.error('env SDK_YUNTI_NAME is required')
+  process.exit(1)
+}
+
+if (!GRAPH_API_ENDPOINT) {
+  console.error('env GRAPH_API_ENDPOINT is required')
   process.exit(1)
 }
 
