@@ -7,7 +7,7 @@ const SDK_FILE_PATH = './src/sdk.ts';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
-await $`${NM_RUN_PATH}graphql-codegen`;
+await $`${NM_RUN_PATH}graphql-codegen --config ./codegen.ts`;
 
 fs.writeFileSync(
   SDK_FILE_PATH,

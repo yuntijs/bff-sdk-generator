@@ -21,13 +21,15 @@
     "compiled"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-graphql-request": "^6.0.1",
     "@graphql-codegen/typescript-operations": "^4.0.1",
+    "@types/node": "^20.10.1",
     "@types/react": "^18.2.35",
     "antd": "^5.11.0",
     "father": "^4.0.7",
