@@ -5,10 +5,12 @@ import * as semver from 'semver';
 
 const PACKAGE_PATH = './package.json';
 const FATHERRC_PATH = './.fatherrc.ts';
+const INDEX_FILE_PATH = './src/index.ts';
 
 const SDK_PACKAGE_NAME = process.env.SDK_PACKAGE_NAME;
 const SDK_YUNTI_NAME = process.env.SDK_YUNTI_NAME;
 const GRAPH_API_ENDPOINT = process.env.GRAPH_API_ENDPOINT;
+const GRAPH_CLIENT_ENDPOINT = process.env.GRAPH_CLIENT_ENDPOINT;
 
 if (!SDK_PACKAGE_NAME) {
   console.error('env SDK_PACKAGE_NAME is required')
@@ -22,6 +24,11 @@ if (!SDK_YUNTI_NAME) {
 
 if (!GRAPH_API_ENDPOINT) {
   console.error('env GRAPH_API_ENDPOINT is required')
+  process.exit(1)
+}
+
+if (!GRAPH_CLIENT_ENDPOINT) {
+  console.error('env GRAPH_CLIENT_ENDPOINT is required')
   process.exit(1)
 }
 
@@ -60,5 +67,16 @@ fs.writeFileSync(
     .replace(
       `name: "BffSDKLibrary"`,
       `name: "${SDK_YUNTI_NAME}"`
+    )
+)
+
+fs.writeFileSync(
+  INDEX_FILE_PATH,
+  fs
+    .readFileSync(INDEX_FILE_PATH)
+    .toString()
+    .replace(
+      `'<replace>grqph_client_endpoint</replace>'`,
+      `'${GRAPH_CLIENT_ENDPOINT}'`
     )
 )

@@ -14,7 +14,6 @@ export * from "graphql-request";
 export * from "./errors";
 export * from "./sdk";
 
-const isProd = process.env.NODE_ENV === "production";
 const AUTH_DATA = "authData";
 const getAuthData = () => {
   try {
@@ -59,11 +58,7 @@ export const responseMiddleware = (response: Response<unknown> | Error) => {
   }
 };
 
-const devEndpoint = "https://portal.172.22.96.136.nip.io/kubeagi-apis/bff";
-const prodEndpoint = "https://portal.172.22.96.136.nip.io/kubeagi-apis/bff";
-const endpoint = isProd ? prodEndpoint : devEndpoint;
-
-export const client = new GraphQLClient(endpoint, {
+export const client = new GraphQLClient('<replace>grqph_client_endpoint</replace>', {
   requestMiddleware,
   responseMiddleware,
 });
