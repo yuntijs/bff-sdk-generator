@@ -8,7 +8,7 @@ WORKDIR /tmp/bff-sdk-template
 
 COPY . /tmp/bff-sdk-template/
 
-RUN npm i pnpm @antfu/ni zx -g
+RUN npm i pnpm @antfu/ni zx cnpm -g
 RUN --mount=type=secret,id=npmrc,target=/root/.npmrc ni --ignore-scripts --registry=http://dev-npm.tenxcloud.net
 
 RUN chmod +x ./publish.sh
