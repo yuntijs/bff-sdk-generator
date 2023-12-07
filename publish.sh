@@ -16,3 +16,5 @@ fi
 nr gen:gql
 
 nr pub
+
+cnpm sync $sdk_package_name
