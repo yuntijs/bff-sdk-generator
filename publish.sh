@@ -16,7 +16,7 @@ fi
 
 nr gen:gql
 
-if [ $test_only ]; then
+if [ $test_only = "true" ]; then
   echo "SDK generated successfully"
   exit 0
 fi
