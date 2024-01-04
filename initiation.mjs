@@ -11,6 +11,7 @@ const SDK_PACKAGE_NAME = process.env.SDK_PACKAGE_NAME;
 const SDK_YUNTI_NAME = process.env.SDK_YUNTI_NAME;
 const GRAPH_API_ENDPOINT = process.env.GRAPH_API_ENDPOINT;
 const GRAPH_CLIENT_ENDPOINT = process.env.GRAPH_CLIENT_ENDPOINT;
+const SDK_RELEASE_TYPE = process.env.SDK_RELEASE_TYPE;
 
 if (!SDK_PACKAGE_NAME) {
   console.error('env SDK_PACKAGE_NAME is required')
@@ -35,7 +36,7 @@ if (!GRAPH_CLIENT_ENDPOINT) {
 let version = '1.0.0';
 try {
   const preVersion = await $`npm view ${SDK_PACKAGE_NAME} version`;
-  version = semver.inc(preVersion.stdout || '1.0.0', 'patch');
+  version = semver.inc(preVersion.stdout || '1.0.0', SDK_RELEASE_TYPE || 'patch');
 } catch (error) {
   console.error(`failed to view ${SDK_PACKAGE_NAME} version`)
 }
