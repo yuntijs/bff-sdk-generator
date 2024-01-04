@@ -6,6 +6,7 @@ const config: CodegenConfig = {
   schema: endpoint,
   documents: [
     "/schema/*.gql",
+    "/schema/**/*.gql",
   ],
   generates: {
     "./src/sdk.ts": {
