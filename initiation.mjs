@@ -12,6 +12,7 @@ const SDK_YUNTI_NAME = process.env.SDK_YUNTI_NAME;
 const GRAPH_API_ENDPOINT = process.env.GRAPH_API_ENDPOINT;
 const GRAPH_CLIENT_ENDPOINT = process.env.GRAPH_CLIENT_ENDPOINT;
 const SDK_RELEASE_TYPE = process.env.SDK_RELEASE_TYPE;
+const SDK_RELEASE_REGISTRY = process.env.SDK_RELEASE_REGISTRY;
 
 if (!SDK_PACKAGE_NAME) {
   console.error('env SDK_PACKAGE_NAME is required')
@@ -57,6 +58,10 @@ fs.writeFileSync(
     .replace(
       `"library": "BffSDKLibrary"`,
       `"library": "${SDK_YUNTI_NAME}"`
+    )
+    .replace(
+      `"registry": "https://registry.npmjs.org/"`,
+      `"registry": "${SDK_RELEASE_REGISTRY || 'https://registry.npmjs.org/'}"`
     )
 )
 
