@@ -1,26 +1,26 @@
-import { GraphQLClient } from "graphql-request";
+import { GraphQLClient } from 'graphql-request';
 import type {
+  GraphQLClientResponse,
   RequestConfig,
   RequestMiddleware,
-  Response,
-} from "graphql-request/src/types";
-import type { RequestInit } from "graphql-request/src/types.dom";
-import qs from "query-string";
-import { useMemo } from "react";
-import { errorsHandler } from "./errors";
-import { getSdk, getSdkWithHooks } from "./sdk";
+} from 'graphql-request/src/types';
+import qs from 'query-string';
+import { useMemo } from 'react';
+import { errorsHandler } from './errors';
+import { getSdk, getSdkWithHooks } from './sdk';
 
-export * from "graphql-request";
-export * from "./errors";
-export * from "./sdk";
+export * from 'graphql-request';
+export * from './errors';
+export * from './sdk';
 
-const AUTH_DATA = "authData";
+const isProd = process.env.NODE_ENV === 'production';
+const AUTH_DATA = 'authData';
 const getAuthData = () => {
   try {
-    const authData = JSON.parse(window.localStorage.getItem(AUTH_DATA) || "{}");
+    const authData = JSON.parse(window.localStorage.getItem(AUTH_DATA) || '{}');
     return authData;
   } catch (error) {
-    console.warn("getAuthData failed", error);
+    console.warn('getAuthData failed', error);
     return {};
   }
 };
@@ -31,7 +31,7 @@ export interface RequestOptions extends RequestInit {
 
 export const requestMiddleware: RequestMiddleware<any> = (request) => {
   const { url, operationName, ...otherRequest } = request;
-  const [host, search] = url.split("?");
+  const [host, search] = url.split('?');
   const query = qs.parse(search);
   // query 中增加操作名，便于定位问题
   if (operationName) {
@@ -43,7 +43,7 @@ export const requestMiddleware: RequestMiddleware<any> = (request) => {
   return {
     url: `${host}?${qs.stringify(query)}`,
     operationName,
-    credentials: "include",
+    credentials: 'include',
     ...otherRequest,
     headers: Authorization
       ? { ...request.headers, Authorization }
@@ -51,14 +51,19 @@ export const requestMiddleware: RequestMiddleware<any> = (request) => {
   };
 };
 
-export const responseMiddleware = (response: Response<unknown> | Error) => {
-  const errors: Error[] = response.errors || response.response?.errors;
+export const responseMiddleware = (response: GraphQLClientResponse<any> | Error) => {
+  const errors =
+    (response as GraphQLClientResponse<any>).errors || (response as any).response?.errors;
   if (errors) {
     errorsHandler(errors);
   }
 };
 
-export const client = new GraphQLClient('<replace>grqph_client_endpoint</replace>', {
+const devEndpoint = '/bff';
+const prodEndpoint = '/bff';
+const endpoint = isProd ? prodEndpoint : devEndpoint;
+
+export const client = new GraphQLClient(endpoint, {
   requestMiddleware,
   responseMiddleware,
 });
@@ -74,7 +79,7 @@ interface SdkBaseOptions {
   requestConfig?: RequestConfig;
 }
 
-export type SdkOptions = Pick<SdkBaseOptions, "url" | "requestConfig">;
+export type SdkOptions = Pick<SdkBaseOptions, 'url' | 'requestConfig'>;
 
 /**
  * 初始化 GraphQL client 实例
