@@ -10,8 +10,6 @@ export default defineConfig({
     sourcemap: true,
     externals: {
       react: "var window.React",
-      "react-dom": "var window.ReactDOM",
-      "prop-types": "var window.PropTypes",
       antd: "var window.antd",
       "@tenx-ui/materials": "var window.TenxUiMaterials",
     },

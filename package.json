@@ -4,6 +4,7 @@
   "description": "template for bff sdk",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "scripts": {
     "dev": "father dev",
     "build": "father build",
@@ -32,7 +33,7 @@
     "@types/node": "^20.10.1",
     "@types/react": "^18.2.35",
     "antd": "^5.11.0",
-    "father": "^4.0.7",
+    "father": "^4.3.8",
     "graphql-codegen-plugin-typescript-swr": "^0.8.5",
     "prettier": "^3.0.3",
     "react": "^18.2.0",

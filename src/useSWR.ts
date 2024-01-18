@@ -1,26 +1,26 @@
-import { ClientError } from "graphql-request";
-import type { Fetcher, Key, SWRConfiguration, SWRResponse } from "swr";
-import __useSWR from "swr";
+import { ClientError } from 'graphql-request';
+import type { Fetcher, Key, SWRConfiguration, SWRResponse } from 'swr';
+import __useSWR from 'swr';
 
 export interface SWRResponsePro<Data = any, Error = any>
   extends SWRResponse<Data, Error> {
   loading: boolean;
 }
 
-const SWR_ONFOCUS = "swr_revalidateOnFocus"; // 聚焦时重新请求
-const SWR_IFSTALE = "swr_revalidateIfStale"; // 控制SWR在挂载并且存在陈旧数据时重新请求
-const SWR_ONRECONNECT = "swr_revalidateOnReconnect"; // 重新连接时重新请求
+const SWR_ONFOCUS = 'swr_revalidateOnFocus'; // 聚焦时重新请求
+const SWR_IFSTALE = 'swr_revalidateIfStale'; // 控制SWR在挂载并且存在陈旧数据时重新请求
+const SWR_ONRECONNECT = 'swr_revalidateOnReconnect'; // 重新连接时重新请求
 const defaultConfig = {
-  revalidateOnFocus: window.localStorage.getItem(SWR_ONFOCUS) !== "false",
-  revalidateIfStale: window.localStorage.getItem(SWR_IFSTALE) !== "false",
+  revalidateOnFocus: window.localStorage.getItem(SWR_ONFOCUS) !== 'false',
+  revalidateIfStale: window.localStorage.getItem(SWR_IFSTALE) !== 'false',
   revalidateOnReconnect:
-    window.localStorage.getItem(SWR_ONRECONNECT) !== "false",
+    window.localStorage.getItem(SWR_ONRECONNECT) !== 'false',
 };
 
 export const useSWR = <
   Data = any,
   Error = ClientError,
-  SWRKey extends Key = null,
+  SWRKey extends Key = Key,
 >(
   key: SWRKey,
   fetcher: Fetcher<Data, SWRKey> | null,
@@ -34,11 +34,11 @@ export const useSWR = <
 
   const hasObjectData =
     data &&
-    Object.prototype.toString.call(data) === "[object Object]" &&
+    Object.prototype.toString.call(data) === '[object Object]' &&
     Object.keys(data || {}).length > 0;
   return {
     ...res,
-    data: hasObjectData ? data : error?.response?.data || data,
+    data: hasObjectData ? data : (error as any)?.response?.data || data,
     loading: !data && !error,
   };
 };
