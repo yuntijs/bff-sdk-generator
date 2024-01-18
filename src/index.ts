@@ -13,7 +13,6 @@ export * from 'graphql-request';
 export * from './errors';
 export * from './sdk';
 
-const isProd = process.env.NODE_ENV === 'production';
 const AUTH_DATA = 'authData';
 const getAuthData = () => {
   try {
@@ -59,11 +58,7 @@ export const responseMiddleware = (response: GraphQLClientResponse<any> | Error)
   }
 };
 
-const devEndpoint = '/bff';
-const prodEndpoint = '/bff';
-const endpoint = isProd ? prodEndpoint : devEndpoint;
-
-export const client = new GraphQLClient(endpoint, {
+export const client = new GraphQLClient('<replace>grqph_client_endpoint</replace>', {
   requestMiddleware,
   responseMiddleware,
 });
