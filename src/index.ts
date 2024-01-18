@@ -58,7 +58,8 @@ export const responseMiddleware = (response: GraphQLClientResponse<any> | Error)
   }
 };
 
-export const client = new GraphQLClient('<replace>grqph_client_endpoint</replace>', {
+const endpoint = '<replace>grqph_client_endpoint</replace>';
+export const client = new GraphQLClient(endpoint, {
   requestMiddleware,
   responseMiddleware,
 });
