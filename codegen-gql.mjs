@@ -19,6 +19,11 @@ fs.writeFileSync(
       `import useSWR from './useSWR';
 import`,
     )
+    .replace(
+      `import { GraphQLClientRequestHeaders } from 'graphql-request/build/cjs/types';`,
+      `import { RequestConfig } from 'graphql-request/src/types';`
+    )
+    .replaceAll('GraphQLClientRequestHeaders', `RequestConfig['headers']`)
     .replace(/graphql\-request\/dist\//g, 'graphql-request/src/')
     .replace(
       /\s*id:\sstring,\s*fieldName:\s*keyof\s*Variables,\s*fieldValue:\s*Variables\[\s*typeof\sfieldName\s*\]\s*/,
