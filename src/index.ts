@@ -1,8 +1,8 @@
 import { GraphQLClient } from 'graphql-request';
 import type {
-  GraphQLClientResponse,
   RequestConfig,
   RequestMiddleware,
+  Response,
 } from 'graphql-request/src/types';
 import qs from 'query-string';
 import { useMemo } from 'react';
@@ -50,9 +50,9 @@ export const requestMiddleware: RequestMiddleware<any> = (request) => {
   };
 };
 
-export const responseMiddleware = (response: GraphQLClientResponse<any> | Error) => {
+export const responseMiddleware = (response: Response<any> | Error) => {
   const errors =
-    (response as GraphQLClientResponse<any>).errors || (response as any).response?.errors;
+    (response as Response<any>).errors || (response as any).response?.errors;
   if (errors) {
     errorsHandler(errors);
   }
