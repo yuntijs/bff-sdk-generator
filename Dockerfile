@@ -8,8 +8,11 @@ WORKDIR /tmp/bff-sdk-generator
 
 COPY . /tmp/bff-sdk-generator/
 
-RUN npm i pnpm @antfu/ni zx cnpm -g --registry=https://registry.npmmirror.com
-RUN --mount=type=secret,id=npmrc,target=/root/.npmrc ni --ignore-scripts --registry=http://dev-npm.tenxcloud.net
+# Enable this line to use npm mirror in China
+# RUN npm set registry https://registry.npmmirror.com/
+
+RUN npm i pnpm @antfu/ni zx cnpm -g
+RUN --mount=type=secret,id=npmrc,target=/root/.npmrc ni --ignore-scripts
 
 RUN chmod +x ./publish.sh
 ENTRYPOINT ["sh", "publish.sh"]
