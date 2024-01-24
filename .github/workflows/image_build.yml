@@ -20,8 +20,8 @@ jobs:
         run: |
           TAG=$(git describe --tags --abbrev=0 --match 'v*' 2> /dev/null) || true
           if [ -z "$TAG" ]; then
-            echo "No tag found, use v0.0.1 as default"
-            TAG=v0.0.1
+            echo "No tag found, use v0.1.0 as default"
+            TAG=v0.1.0
           fi
           echo "TAG=${TAG}" >> $GITHUB_OUTPUT
           echo "DATE=$(TZ=Asia/Shanghai date +'%Y%m%d')" >> $GITHUB_OUTPUT
@@ -61,8 +61,6 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.set-env.outputs.TAG }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ steps.set-env.outputs.DATE }}-${{ steps.short-sha.outputs.sha }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.set-env.outputs.TAG }}-${{ steps.set-env.outputs.DATE }}-${{ steps.short-sha.outputs.sha }}
             ${{ steps.meta.outputs.tags }}
           push: true
