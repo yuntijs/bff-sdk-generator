@@ -41,7 +41,7 @@
     "swr": "^2.2.4"
   },
   "dependencies": {
-    "@tenx-ui/materials": "1.5.12-beta.2",
+    "@tenx-ui/materials": "^1.5.12",
     "graphql": "^16.8.1",
     "graphql-request": "^5.2.0",
     "graphql-tag": "^2.12.6",

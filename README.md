@@ -1,6 +1,6 @@
-# bff-sdk-template
+# bff-sdk-generator
 
-template for bff sdk
+generator for bff sdk
 
 ```bash
 # you should npm login first or run `npm set` command first, like: npm set //dev-npm.tenxcloud.net/:_authToken=xxxxx
