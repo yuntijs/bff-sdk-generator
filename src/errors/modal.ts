@@ -1,4 +1,4 @@
-import { Modal, ModalFuncProps } from "antd";
+import Modal, { type ModalFuncProps } from "antd/es/modal";
 import { GraphQLError } from "graphql-request/src/types";
 
 export const logout = () => {

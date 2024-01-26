@@ -1,6 +1,7 @@
 import { ClientError } from 'graphql-request';
 import type { Fetcher, Key, SWRConfiguration, SWRResponse } from 'swr';
 import __useSWR from 'swr';
+import { isBrowser } from './utils';
 
 export interface SWRResponsePro<Data = any, Error = any>
   extends SWRResponse<Data, Error> {
@@ -11,10 +12,15 @@ const SWR_ONFOCUS = 'swr_revalidateOnFocus'; // 聚焦时重新请求
 const SWR_IFSTALE = 'swr_revalidateIfStale'; // 控制SWR在挂载并且存在陈旧数据时重新请求
 const SWR_ONRECONNECT = 'swr_revalidateOnReconnect'; // 重新连接时重新请求
 const defaultConfig = {
-  revalidateOnFocus: window.localStorage.getItem(SWR_ONFOCUS) !== 'false',
-  revalidateIfStale: window.localStorage.getItem(SWR_IFSTALE) !== 'false',
-  revalidateOnReconnect:
-    window.localStorage.getItem(SWR_ONRECONNECT) !== 'false',
+  revalidateOnFocus: isBrowser()
+    ? window.localStorage.getItem(SWR_ONFOCUS) !== 'false'
+    : true,
+  revalidateIfStale: isBrowser()
+    ? window.localStorage.getItem(SWR_IFSTALE) !== 'false'
+    : true,
+  revalidateOnReconnect: isBrowser()
+    ? window.localStorage.getItem(SWR_ONRECONNECT) !== 'false'
+    : true,
 };
 
 export const useSWR = <

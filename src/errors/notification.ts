@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { notification } from '@tenx-ui/materials';
+import notification from 'antd/es/notification';
 import { GraphQLError } from 'graphql-request/src/types';
 
 const VERBS_MAP: Record<string, string> = {
@@ -34,19 +34,17 @@ export const showForbiddenNotification = (error: GraphQLError) => {
   if (name) {
     description += ` ${name}`;
   }
-  notification.warn({
+  notification.warning({
     message: '当前操作未被授权',
     description,
-    detail: error,
   });
 };
 
 export const showGlobalErrorNotification = (error: GraphQLError) => {
   const { message } = error || {};
 
-  notification.warn({
+  notification.warning({
     message: '请求错误',
     description: message,
-    detail: error,
   });
 };

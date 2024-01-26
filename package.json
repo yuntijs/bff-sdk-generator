@@ -41,14 +41,12 @@
     "swr": "^2.2.4"
   },
   "dependencies": {
-    "@tenx-ui/materials": "^1.5.12",
     "graphql": "^16.8.1",
     "graphql-request": "^5.2.0",
     "graphql-tag": "^2.12.6",
     "query-string": "^8.1.0"
   },
   "peerDependencies": {
-    "@tenx-ui/materials": ">=1.5.8",
     "antd": ">=5.4.0",
     "react": ">=16.9.0",
     "swr": ">=2.0.0"

@@ -11,7 +11,6 @@ export default defineConfig({
     externals: {
       react: "var window.React",
       antd: "var window.antd",
-      "@tenx-ui/materials": "var window.TenxUiMaterials",
     },
   },
   esm: { input: "src" },

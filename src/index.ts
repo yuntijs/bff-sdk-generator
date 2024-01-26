@@ -8,6 +8,7 @@ import qs from 'query-string';
 import { useMemo } from 'react';
 import { errorsHandler } from './errors';
 import { getSdk, getSdkWithHooks } from './sdk';
+import { isBrowser } from './utils';
 
 export * from 'graphql-request';
 export * from './errors';
@@ -15,6 +16,9 @@ export * from './sdk';
 
 const AUTH_DATA = 'authData';
 const getAuthData = () => {
+  if (!isBrowser()) {
+    return {};
+  }
   try {
     const authData = JSON.parse(window.localStorage.getItem(AUTH_DATA) || '{}');
     return authData;
@@ -58,7 +62,10 @@ export const responseMiddleware = (response: Response<any> | Error) => {
   }
 };
 
-const endpoint = '<replace>grqph_client_endpoint</replace>';
+let endpoint = '<replace>grqph_client_endpoint</replace>';
+if (!isBrowser()) {
+  endpoint = (process.env.BFF_SERVER_ORIGIN || '') + endpoint;
+}
 export const client = new GraphQLClient(endpoint, {
   requestMiddleware,
   responseMiddleware,
