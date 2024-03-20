@@ -21,11 +21,7 @@ interface Exception {
   details?: ExceptionDetails;
 }
 export const showForbiddenNotification = (error: GraphQLError) => {
-  const {
-    name,
-    kind,
-    verb = '',
-  } = (error.extensions?.exception as Exception)?.details || {};
+  const { name, kind, verb = '' } = (error.extensions?.exception as Exception)?.details || {};
   let description = '当前用户没有权限';
   description += `${VERBS_MAP[verb] || '操作'}`;
   if (kind) {

@@ -1,22 +1,21 @@
 import { GraphQLClient } from 'graphql-request';
 import type { RequestConfig, RequestMiddleware, Response } from 'graphql-request/src/types';
 import qs from 'query-string';
-import { useMemo } from 'react';
-import { errorsHandler } from './errors';
+import * as Taro from '@tarojs/taro';
+import { Headers } from 'headers-polyfill';
+import { errorsHandler } from './errors-taro';
 import { getSdk, getSdkWithHooks } from './sdk';
-import { isBrowser } from './utils';
+import { useMemo } from 'react';
 
 export * from 'graphql-request';
-export * from './errors';
+export * from './errors-taro';
 export * from './sdk';
 
 const AUTH_DATA = 'authData';
 const getAuthData = () => {
-  if (!isBrowser()) {
-    return {};
-  }
   try {
-    const authData = JSON.parse(window.localStorage.getItem(AUTH_DATA) || '{}');
+    // @Todo
+    const authData = JSON.parse(Taro.getStorageSync(AUTH_DATA) || '{}');
     return authData;
   } catch (error) {
     console.warn('getAuthData failed', error);
@@ -55,15 +54,31 @@ export const responseMiddleware = (response: Response<any> | Error) => {
   }
 };
 
-let endpoint = '<replace>grqph_client_endpoint</replace>';
-if (!isBrowser()) {
-  endpoint = (process.env.BFF_SERVER_ORIGIN || '') + endpoint;
-}
-export const client = new GraphQLClient(endpoint, {
-  requestMiddleware,
-  responseMiddleware,
-});
-export const sdk = getSdkWithHooks(client);
+// https://taro-docs.jd.com/docs/apis/network/request/
+const taroFetch = async (url: string, options: RequestConfig) => {
+  console.log('options', options);
+  const { body, credentials, headers, method } = options;
+  const res = await Taro.request({
+    url,
+    credentials,
+    method: method as Taro.request.Option['method'],
+    header: headers,
+    data: body,
+  });
+  console.log('res', res);
+  return {
+    ...res,
+    text: () => res.data,
+    headers: new Headers(res.header),
+    ok: res.statusCode < 400,
+  };
+};
+const jsonSerializer = {
+  parse: (obj: any) => obj,
+  stringify: (obj: any) => JSON.stringify(obj),
+};
+
+const endpoint = '/kubeagi-apis/bff';
 
 /** 初始化 sdk 的配置项 */
 interface SdkBaseOptions {
@@ -98,6 +113,12 @@ export const initGraphQLClient = (url?: string, requestConfig?: RequestConfig) =
   }
   if (!requestConfig.responseMiddleware) {
     requestConfig.responseMiddleware = responseMiddleware;
+  }
+  if (!requestConfig.fetch) {
+    requestConfig.fetch = taroFetch;
+  }
+  if (!requestConfig.jsonSerializer) {
+    requestConfig.jsonSerializer = jsonSerializer;
   }
   return new GraphQLClient(url || endpoint, requestConfig);
 };

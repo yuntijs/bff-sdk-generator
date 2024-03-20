@@ -1,8 +1,8 @@
-import Modal, { type ModalFuncProps } from "antd/es/modal";
-import { GraphQLError } from "graphql-request/src/types";
+import Modal, { type ModalFuncProps } from 'antd/es/modal';
+import { GraphQLError } from 'graphql-request/src/types';
 
 export const logout = () => {
-  window.location.href = "/logout";
+  window.location.href = '/logout';
 };
 
 let InvalidTokenModal:
@@ -10,9 +10,7 @@ let InvalidTokenModal:
   | {
       destroy: () => void;
       update: (
-        configUpdate:
-          | ModalFuncProps
-          | ((prevConfig: ModalFuncProps) => ModalFuncProps),
+        configUpdate: ModalFuncProps | ((prevConfig: ModalFuncProps) => ModalFuncProps)
       ) => void;
     };
 
@@ -26,8 +24,8 @@ export const showInvalidTokenModal = (error: GraphQLError) => {
     return;
   }
   InvalidTokenModal = Modal.warn({
-    okText: "确定",
-    content: "用户凭证可能已失效，点击确定重新登录",
+    okText: '确定',
+    content: '用户凭证可能已失效，点击确定重新登录',
     onOk: logout,
     onCancel: onInvalidTokenModalCancel,
   });

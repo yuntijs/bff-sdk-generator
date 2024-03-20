@@ -30,10 +30,12 @@
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-graphql-request": "^6.1.0",
     "@graphql-codegen/typescript-operations": "^4.0.1",
+    "@tarojs/taro": "^3",
     "@types/node": "^20.10.1",
     "@types/react": "^18.2.35",
     "antd": "^5.11.0",
     "father": "^4.3.8",
+    "headers-polyfill": "^4.0.3",
     "graphql-codegen-plugin-typescript-swr": "^0.8.5",
     "prettier": "^3.0.3",
     "react": "^18.2.0",
@@ -47,7 +49,9 @@
     "query-string": "^8.1.0"
   },
   "peerDependencies": {
+    "@tarojs/taro": ">=3",
     "antd": ">=5.4.0",
+    "headers-polyfill": ">=4",
     "react": ">=16.9.0",
     "swr": ">=2.0.0"
   },
