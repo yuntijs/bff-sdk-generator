@@ -55,7 +55,7 @@ export const responseMiddleware = (response: Response<any> | Error) => {
   }
 };
 
-let endpoint = '<replace>grqph_client_endpoint</replace>';
+export let endpoint = '<replace>grqph_client_endpoint</replace>';
 if (!isBrowser()) {
   endpoint = (process.env.BFF_SERVER_ORIGIN || '') + endpoint;
 }
@@ -66,7 +66,7 @@ export const client = new GraphQLClient(endpoint, {
 export const sdk = getSdkWithHooks(client);
 
 /** 初始化 sdk 的配置项 */
-interface SdkBaseOptions {
+export interface SdkBaseOptions {
   /** api 地址，默认为 `'/bff'` */
   url?: string;
   /** 是否返回 hooks 相关函数，默认为 `false` */

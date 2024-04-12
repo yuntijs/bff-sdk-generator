@@ -14,6 +14,6 @@ export default defineConfig({
     },
   },
   esm: { input: "src" },
-  // cjs: { input: 'src' },
+  cjs: { input: 'src' },
   // prebundle: {},
 });
