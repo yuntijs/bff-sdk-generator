@@ -14,7 +14,6 @@ export * from './sdk';
 const AUTH_DATA = 'authData';
 const getAuthData = () => {
   try {
-    // @Todo
     const authData = JSON.parse(Taro.getStorageSync(AUTH_DATA) || '{}');
     return authData;
   } catch (error) {
