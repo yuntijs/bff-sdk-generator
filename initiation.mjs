@@ -13,6 +13,7 @@ const GRAPH_API_ENDPOINT = process.env.GRAPH_API_ENDPOINT;
 const GRAPH_CLIENT_ENDPOINT = process.env.GRAPH_CLIENT_ENDPOINT;
 const SDK_RELEASE_TYPE = process.env.SDK_RELEASE_TYPE;
 const SDK_RELEASE_REGISTRY = process.env.SDK_RELEASE_REGISTRY;
+const NPM_REGISTRY = process.env.NPM_REGISTRY;
 
 if (!SDK_PACKAGE_NAME) {
   console.error('env SDK_PACKAGE_NAME is required')
@@ -36,10 +37,14 @@ if (!GRAPH_CLIENT_ENDPOINT) {
 
 let version = '1.0.0';
 try {
-  const preVersion = await $`npm view ${SDK_PACKAGE_NAME} version`;
+  const preVersion = await $`npm view ${SDK_PACKAGE_NAME || 'antd'} version${NPM_REGISTRY ? ` --registry ${NPM_REGISTRY}` : ''}`;
+  console.log(preVersion)
   version = semver.inc(preVersion.stdout || '1.0.0', SDK_RELEASE_TYPE || 'patch');
 } catch (error) {
   console.error(`failed to view ${SDK_PACKAGE_NAME} version`)
+  if (!error.message.includes('404')) {
+    process.exit(1)
+  }
 }
 
 fs.writeFileSync(
