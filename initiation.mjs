@@ -13,7 +13,7 @@ const GRAPH_API_ENDPOINT = process.env.GRAPH_API_ENDPOINT;
 const GRAPH_CLIENT_ENDPOINT = process.env.GRAPH_CLIENT_ENDPOINT;
 const SDK_RELEASE_TYPE = process.env.SDK_RELEASE_TYPE;
 const SDK_RELEASE_REGISTRY = process.env.SDK_RELEASE_REGISTRY;
-const NPM_REGISTRY = process.env.NPM_REGISTRY;
+const NPM_REGISTRY = process.env.NPM_REGISTRY || 'https://registry.npmjs.org/';
 
 if (!SDK_PACKAGE_NAME) {
   console.error('env SDK_PACKAGE_NAME is required')
@@ -37,8 +37,11 @@ if (!GRAPH_CLIENT_ENDPOINT) {
 
 let version = '1.0.0';
 try {
-  const preVersion = await $`npm view ${SDK_PACKAGE_NAME || 'antd'} version${NPM_REGISTRY ? ` --registry ${NPM_REGISTRY}` : ''}`;
+  const preVersion = await $`npm view ${SDK_PACKAGE_NAME || 'antd'} version --registry ${NPM_REGISTRY}`;
   console.log(preVersion)
+  if (!preVersion.stdout) {
+    process.exit(1)
+  }
   version = semver.inc(preVersion.stdout || '1.0.0', SDK_RELEASE_TYPE || 'patch');
 } catch (error) {
   console.error(`failed to view ${SDK_PACKAGE_NAME} version`)
