@@ -44,7 +44,7 @@ export const requestMiddleware: RequestMiddleware<any> = request => {
     operationName,
     credentials: 'include',
     ...otherRequest,
-    headers: Authorization ? { ...request.headers, Authorization } : { ...request.headers },
+    headers: Authorization ? { Authorization, ...request.headers } : { ...request.headers },
   };
 };
 
